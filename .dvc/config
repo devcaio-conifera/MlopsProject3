@@ -1,0 +1,4 @@
+[core]
+    remote = project3mlops
+['remote "project3mlops"']
+    url = s3://project3mlops/census
