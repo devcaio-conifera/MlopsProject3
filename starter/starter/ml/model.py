@@ -1,8 +1,15 @@
 from sklearn.metrics import fbeta_score, precision_score, recall_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import GridSearchCV
+import numpy as np
+import logging
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
+logger = logging.getLogger()
 
 # Optional: implement hyperparameter tuning.
-def train_model(X_train, y_train):
+def train_model(X_train, y_train, X_test):
     """
     Trains a machine learning model and returns it.
 
@@ -18,7 +25,20 @@ def train_model(X_train, y_train):
         Trained machine learning model.
     """
 
-    pass
+    scaler = StandardScaler()
+    scaled_X_train = scaler.fit_transform(X_train)
+    scaled_X_test = scaler.transform(X_test)
+    log_model = LogisticRegression(solver='saga',multi_class="ovr",max_iter=5000)
+    # Penalty Type
+    penalty = ['l1', 'l2']
+
+    # Use logarithmically spaced C values (recommended in official docs)
+    C = np.logspace(0, 4, 10)
+    # CV and fit model
+    logger.info(" Hyperparameter Optimization with GridSearchCV ")
+    grid_model = GridSearchCV(log_model,param_grid={'C':C,'penalty':penalty})
+    logger.info("model fitting.....")
+    return grid_model.fit(scaled_X_train,y_train), scaled_X_test
 
 
 def compute_model_metrics(y, preds):
@@ -57,4 +77,7 @@ def inference(model, X):
     preds : np.array
         Predictions from the model.
     """
-    pass
+    logger.info("Model prediction...")
+    y_pred = model.predict(X)
+    return y_pred
+    
