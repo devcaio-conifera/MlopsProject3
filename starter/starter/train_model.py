@@ -38,19 +38,12 @@ df_header =["age",
 "salary"]
 
 logger.info(f"Reading dataset...")
-os.chdir("../../")
+os.chdir("../")
 path = os.getcwd()
 print(path)
-data_path = os.path.join(path, 'adult.csv')
+data_path = os.path.join(path, 'data/adult.csv')
 df = pd.read_csv(data_path, header=None, names= df_header, index_col=False)
 df = df.head(200)
-# my_object_df =df.select_dtypes(include= 'object')
-# my_numeric_df =df.select_dtypes(exclude= 'object')
-# df_dummies = pd.get_dummies(my_object_df, drop_first = True)
-# logger.info( "Concatanating dummie features and numeric" )
-# final_df = pd.concat([my_numeric_df , df_dummies], axis=1)
-print(df.head(10))
-
 
 #train-test split.
 logger.info("features and target split..")
@@ -90,10 +83,10 @@ logger.info(f'Recall: {recall}')
 logger.info(f'Precision: {fbeta}')
 
 
-# Proces the test data with the process_data function.
+# Process the test data with the process_data function.
 
 # save the model to disk
 filename = 'final_model.pkl'
 path = os.getcwd()
-os.chdir(os.path.join(path, 'starter/model'))
+os.chdir(os.path.join(path, 'model'))
 pickle.dump(grid_model, open(filename, 'wb'))
