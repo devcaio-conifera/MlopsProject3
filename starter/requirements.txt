@@ -9,5 +9,6 @@ uvicorn
 gunicorn
 python-dotenv
 dvc-s3
+seaborn
 
 
