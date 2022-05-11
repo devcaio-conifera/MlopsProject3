@@ -43,7 +43,7 @@ path = os.getcwd()
 print(path)
 data_path = os.path.join(path, 'data/adult.csv')
 df = pd.read_csv(data_path, header=None, names= df_header, index_col=False)
-df = df.head(200)
+# df = df.head(200)
 
 #train-test split.
 logger.info("features and target split..")
@@ -71,10 +71,10 @@ X_test, y_test, encoder_test, lb_test = process_data(
 )
 
 logger.info(" Preparing training model ....")
-grid_model, scaled_x_test = train_model(X_train,y_train, X_test=X_test)
+grid_model = train_model(X_train,y_train)
 
 logger.info(" Preparing inference...")
-preds = inference(grid_model,scaled_x_test)
+preds = inference(grid_model, X_test)
 
 logger.info(" Preparing model metrics....")
 precision, recall, fbeta = compute_model_metrics(y_test, preds)
@@ -86,7 +86,7 @@ logger.info(f'Precision: {fbeta}')
 # Process the test data with the process_data function.
 
 # save the model to disk
-filename = 'final_model.pkl'
+filename = 'final_model1.pkl'
 path = os.getcwd()
 os.chdir(os.path.join(path, 'model'))
 pickle.dump(grid_model, open(filename, 'wb'))

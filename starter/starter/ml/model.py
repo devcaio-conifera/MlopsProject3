@@ -1,6 +1,7 @@
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 import numpy as np
 import logging
@@ -9,7 +10,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
 
 # Optional: implement hyperparameter tuning.
-def train_model(X_train, y_train, X_test):
+def train_model(X_train, y_train):
     """
     Trains a machine learning model and returns it.
 
@@ -25,20 +26,21 @@ def train_model(X_train, y_train, X_test):
         Trained machine learning model.
     """
 
-    scaler = StandardScaler()
-    scaled_X_train = scaler.fit_transform(X_train)
-    scaled_X_test = scaler.transform(X_test)
-    log_model = LogisticRegression(solver='saga',multi_class="ovr",max_iter=5000)
+    # scaler = StandardScaler()
+    # scaled_X_train = scaler.fit_transform(X_train)
+    # scaled_X_test = scaler.transform(X_test)
+    # log_model = LogisticRegression(solver='saga',multi_class="ovr",max_iter=5000)
+    grid_model= LogisticRegression(random_state=0)
     # Penalty Type
-    penalty = ['l1', 'l2']
+    # penalty = ['l1', 'l2']
 
     # Use logarithmically spaced C values (recommended in official docs)
-    C = np.logspace(0, 4, 10)
+    # C = np.logspace(0, 4, 10)
     # CV and fit model
     logger.info(" Hyperparameter Optimization with GridSearchCV ")
-    grid_model = GridSearchCV(log_model,param_grid={'C':C,'penalty':penalty})
+    # grid_model = GridSearchCV(log_model,param_grid={'C':C,'penalty':penalty})
     logger.info("model fitting.....")
-    return grid_model.fit(scaled_X_train,y_train), scaled_X_test
+    return grid_model.fit(X_train,y_train)
 
 
 def compute_model_metrics(y, preds):
