@@ -80,7 +80,7 @@ logger.info(" Preparing model metrics....")
 precision, recall, fbeta = compute_model_metrics(y_test, preds)
 logger.info(f'Precision: {precision}')
 logger.info(f'Recall: {recall}')
-logger.info(f'Precision: {fbeta}')
+logger.info(f'fbeta: {fbeta}')
 
 
 # Process the test data with the process_data function.
