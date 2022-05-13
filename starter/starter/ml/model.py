@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 import numpy as np
 import logging
+from sklearn.ensemble import GradientBoostingClassifier
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
@@ -30,7 +31,9 @@ def train_model(X_train, y_train):
     # scaled_X_train = scaler.fit_transform(X_train)
     # scaled_X_test = scaler.transform(X_test)
     # log_model = LogisticRegression(solver='saga',multi_class="ovr",max_iter=5000)
-    grid_model= LogisticRegression(random_state=0)
+    # grid_model= LogisticRegression(random_state=0)
+    grid_model = GradientBoostingClassifier(n_estimators=100, learning_rate=1.0,
+     max_depth=1, random_state=0)
     # Penalty Type
     # penalty = ['l1', 'l2']
 

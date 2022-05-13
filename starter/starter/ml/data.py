@@ -1,6 +1,7 @@
+import joblib
 import numpy as np
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
-
+import os
 
 def process_data(
     X, categorical_features=[], label=None, training=True, encoder=None, lb=None
@@ -57,6 +58,7 @@ def process_data(
         encoder = OneHotEncoder(sparse=False, handle_unknown="ignore")
         lb = LabelBinarizer()
         X_categorical = encoder.fit_transform(X_categorical)
+        joblib.dump(encoder,'model/transform_dataset.pkl')
         y = lb.fit_transform(y.values).ravel()
     else:
         X_categorical = encoder.transform(X_categorical)
