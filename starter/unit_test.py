@@ -86,7 +86,7 @@ def test_metrics(data):
     X_test, y_test, encoder_test, lb_test = process_data(
     test, categorical_features=cat_features, label='salary', training=False, 
     encoder= encoder, lb= lb)
-    grid_model, scaled_x_test = train_model(X_train,y_train, X_test=X_test)
-    preds = inference(grid_model,scaled_x_test)
+    grid_model= train_model(X_train,y_train)
+    preds = inference(grid_model,X_test)
     precision, recall, fbeta = compute_model_metrics(y_test, preds)
     assert 0 >= preds.all() <= 1
