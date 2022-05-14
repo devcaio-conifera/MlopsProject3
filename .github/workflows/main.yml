@@ -42,7 +42,6 @@ jobs:
 
       - name: Pulling latest from dvc with this command
         run: |
-          dvc remote add -d project3mlops s3://project3mlops/census
           dvc pull
 
       - name: Test with pytest
