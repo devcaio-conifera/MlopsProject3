@@ -35,7 +35,7 @@ def test_api_post_root():
 
 def test_api_status_get_root():
     r = client.post("/")
-    assert r.status_code == 200
+    assert r.status_code != 200
 
 def test_api_locally_post_root():
     r = client.post("/result")
