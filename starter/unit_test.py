@@ -26,9 +26,8 @@ def data():
     "salary"]
     # os.chdir("../../")
     path = os.getcwd()
-    data_path = os.path.join(path, 'data/test_datset.data')
+    data_path = os.path.join(path, 'data/test_dataset.data')
     df = pd.read_csv(data_path, header=None, names= df_header, index_col=False)
-    df = df.head(200)
     return df
     
 
