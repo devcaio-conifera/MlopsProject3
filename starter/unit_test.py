@@ -8,6 +8,24 @@ from sklearn.model_selection import train_test_split
 
 @pytest.fixture
 def data():
+    data_dict = {
+                "age": 52,
+                "workclass": "Self-emp-not-inc",
+                "fnlwgt": 209642,
+                "education": "HS-grad",
+                "education_num": 9,
+                "marital-status": "Married-civ-spouse",
+                "occupation": "Exec-managerial",
+                "relationship": "Husband",
+                "race": "White",
+                "sex": "Male",
+                "capital-gain": 0,
+                "capital-loss": 0,
+                "hours-per-week": 45,
+                "native-country": "United-States",
+                "salary":"<=50K"
+                }
+
     """ Simple function to generate some fake Pandas data."""
     df_header =["age",
     "workclass",
@@ -25,10 +43,10 @@ def data():
     "native-country",
     "salary"]
     # os.chdir("../../")
-    path = os.getcwd()
-    data_path = os.path.join(path, 'data/test_dataset.data')
-    df = pd.read_csv(data_path, header=None, names= df_header, index_col=False)
-    return df
+    # path = os.getcwd()
+    # data_path = os.path.join(path, 'data/test_dataset.data')
+    # df = pd.read_csv(data_path, header=None, names= df_header, index_col=False)
+    return pd.DataFrame([data_dict])
     
 
 
@@ -59,7 +77,7 @@ cat_features = [
 def test_process_data_columns(data):
     X, y, encoder, lb= process_data(data, categorical_features=cat_features, 
     label='salary', training=True)
-    expected_X_result = 74
+    expected_X_result = 14
     num_rows, num_cols = X.shape
     assert num_cols == expected_X_result
 
