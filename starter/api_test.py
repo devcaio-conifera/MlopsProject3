@@ -1,9 +1,9 @@
 from fastapi.testclient import TestClient
-
+import json
 # Import our app from main.py.
 from main import app
 
-census_query_higer_than_50k = {
+census_query_higer_than_50k = dict({
   "age": 52,
   "workclass": "Self-emp-not-inc",
   "fnlwgt": 209642,
@@ -18,7 +18,8 @@ census_query_higer_than_50k = {
   "capital-loss": 0,
   "hours-per-week": 45,
   "native-country": "United-States"
-}
+})
+headers = {'Content-type': 'application/json', 'accept': 'application/json'}
 
 # Instantiate the testing client with our app.
 client = TestClient(app)
@@ -29,9 +30,10 @@ def test_api_locally_get_root():
     assert r.status_code == 200
     assert r.json() == {"greeting": "Hello World!"}
 
-def test_api_post_root():
-     r = client.post("/items/",json=census_query_higer_than_50k)
-     assert r.json() == 1
+# def test_api_post_root():
+#     r = client.post("/items/",json=census_query_higer_than_50k, headers=headers)
+#     assert r.json() == { "prediction": "1"}
+#     assert r.status_code == 200
 
 def test_api_status_get_root():
     r = client.post("/")
