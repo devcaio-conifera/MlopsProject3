@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 import joblib
 import sys
 
-os.chdir("../")
+# os.chdir("../")
 path = os.getcwd()
 
 @pytest.fixture
@@ -49,8 +49,8 @@ cat_features = [
     "native-country",
 ]
 def test_process_data_columns(data):
-    encoder = joblib.load(path + "/model/transform_dataset.pkl")
-    lb = joblib.load(path + "/model/transform_dataset_y.pkl")
+    encoder = joblib.load(path + "starter/model/transform_dataset.pkl")
+    lb = joblib.load(path + "starter/model/transform_dataset_y.pkl")
     X,_,_,_= process_data(data, categorical_features=cat_features, training=False,
     encoder=encoder, lb=lb)
     expected_X_result = 109
