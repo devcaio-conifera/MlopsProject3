@@ -5,6 +5,7 @@ from starter.ml.model import train_model, inference, compute_model_metrics
 import os
 import numpy as np
 from sklearn.model_selection import train_test_split
+import joblib
 
 @pytest.fixture
 def data():
@@ -25,34 +26,13 @@ def data():
                 "native-country": "United-States",
                 "salary":"<=50K"
                 }
-
-    """ Simple function to generate some fake Pandas data."""
-    df_header =["age",
-    "workclass",
-    "fnlwgt",
-    "education",
-    "education-num",
-    "marital-status",
-    "occupation",
-    "relationship",
-    "race",
-    "sex",
-    "capital-gain",
-    "capital-loss",
-    "hours-per-week",
-    "native-country",
-    "salary"]
-    # os.chdir("../../")
-    # path = os.getcwd()
-    # data_path = os.path.join(path, 'data/test_dataset.data')
-    # df = pd.read_csv(data_path, header=None, names= df_header, index_col=False)
-    return pd.DataFrame([data_dict])
+    return pd.DataFrame([data_dict], index=[0])
     
 
 
-# def test_data_shape(data):
-#     """ If your data is assumed to have no null values then this is a valid test. """
-#     assert data.shape == data.dropna().shape, "Dropping null changes shape."
+def test_data_shape(data):
+    """ If your data is assumed to have no null values then this is a valid test. """
+    assert data.shape == data.dropna().shape, "Dropping null changes shape."
 
 
 # def test_slice_averages(data):
@@ -74,36 +54,28 @@ cat_features = [
     "sex",
     "native-country",
 ]
-# def test_process_data_columns(data):
-#     X, y, encoder, lb= process_data(data, categorical_features=cat_features, 
-#     label='salary', training=True)
-#     expected_X_result = 14
-#     num_rows, num_cols = X.shape
-#     assert num_cols == expected_X_result
+def test_process_data_columns(data):
+    encoder = joblib.load("model/transform_dataset.pkl")
+    lb = joblib.load("model/transform_dataset_y.pkl")
+    X,_,_,_= process_data(data, categorical_features=cat_features, training=False,
+    encoder=encoder, lb=lb)
+    expected_X_result = 109
+    num_rows, num_cols = X.shape
+    assert num_cols == expected_X_result
 
-# def test_process_data_rows(data):
-#     X, y, encoder, lb= process_data(data, categorical_features=cat_features, 
-#     label='salary', training=True)
-#     expected_X_result = 200
-#     num_rows, num_cols = X.shape
-#     assert num_rows == expected_X_result
 
 def test_data_columns(data):
     expected_X_rows_result = 15
     assert len(data.columns) == expected_X_rows_result
 
-# def test_data_rows(data):
-#     expected_X_rows_result = 200
-#     assert len(data) == expected_X_rows_result
 
 # def test_metrics(data):
-#     train, test = train_test_split(data, test_size=0.20)
-#     X_train, y_train, encoder, lb= process_data(train, categorical_features=cat_features, 
-#     label='salary', training=True)
-#     X_test, y_test, encoder_test, lb_test = process_data(
-#     test, categorical_features=cat_features, label='salary', training=False, 
-#     encoder= encoder, lb= lb)
-#     grid_model= train_model(X_train,y_train)
-#     preds = inference(grid_model,X_test)
-#     precision, recall, fbeta = compute_model_metrics(y_test, preds)
-#     assert 0 >= preds.all() <= 1
+#     encoder = joblib.load("model/transform_dataset.pkl")
+#     lb = joblib.load("model/transform_dataset_y.pkl")
+#     model_grid = joblib.load("model/final_model1.pkl")
+#     X,y,_,_= process_data(data, label='salary', encoder=encoder, lb=lb,
+#     categorical_features=cat_features, training=False)
+#     preds = model_grid.predict(X)[0]
+#     pred_final = preds.item()
+#     precision, recall, fbeta = compute_model_metrics(y, pred_final)
+#     assert 0 >= pred_final <= 1

@@ -7,6 +7,10 @@ from starter.ml.data import process_data
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 import json
 import numpy as np
+from fastapi.encoders import jsonable_encoder
+
+def underscore_to_hyphen_replace(string: str) -> str:
+    return string.replace('_', '-')
 
 cat_features = [
     "workclass",
@@ -32,18 +36,40 @@ app = FastAPI()
 class census_inputs(BaseModel):
     age: int
     workclass: str
-    fnlwgt: int
+    fnlgt: int
     education: str
     education_num: int
-    marital_status: str = Field(alias="marital-status")
+    marital_status: str
     occupation: str
     relationship: str
     race: str
     sex: str
-    capital_gain: int = Field(alias="capital-gain")
-    capital_loss: int = Field(alias="capital-loss")
-    hours_per_week: int = Field(alias="hours-per-week")
-    native_country: str = Field(alias="native-country")
+    capital_gain: int
+    capital_loss: int
+    hours_per_week: int
+    native_country: str
+
+    class Config:
+        schema_extra = {
+            "example": {
+                "age": 52,
+                "workclass": "Self-emp-inc",
+                "fnlgt": 287927,
+                "education": "HS-grad",
+                "education-num": 9,
+                "marital-status": "Married-civ-spouse",
+                "occupation": "Exec-managerial",
+                "relationship": "Wife",
+                "race": "White",
+                "sex": "Female",
+                "capital-gain": 15024,
+                "capital-loss": 0,
+                "hours-per-week": 40,
+                "native-country": "United-States"
+            }
+        }
+        alias_generator = underscore_to_hyphen_replace
+
     
 
 @app.get("/")
@@ -53,17 +79,16 @@ async def say_hello():
 
 @app.post("/items/")
 async def create_item(df_inputs: census_inputs):
-    data = df_inputs.dict()
-    data_as_list = pd.DataFrame([data])
-    data_as_list.rename(columns = keys_conversion, inplace = True)
-    data_transform = joblib.load("model/transform_dataset.pkl")
+    data = pd.DataFrame(jsonable_encoder(df_inputs), index=[0])
+    encoder = joblib.load("model/transform_dataset.pkl")
+    lb = joblib.load("model/transform_dataset_y.pkl")
     model_grid = joblib.load("model/final_model1.pkl")
-    data_as_list_categorical = data_as_list[cat_features].values
-    data_as_list_continuous = data_as_list.drop(*[cat_features], axis=1)
-    dataset_transformed = data_transform.transform(data_as_list_categorical)
-    df_final = np.concatenate([data_as_list_continuous, dataset_transformed], axis=1)
-    prediction = model_grid.predict(df_final)
+    X,_, _, _ = process_data(
+    data, categorical_features=cat_features, training=False, 
+    encoder= encoder, 
+    lb= lb)   
+    prediction = model_grid.predict(X)[0]
     pred_final = prediction.item()
     return {
-        'prediction': json.dumps(pred_final)
+        'prediction': pred_final
     }

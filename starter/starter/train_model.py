@@ -16,6 +16,7 @@ import os
 import sys
 from ml.data import process_data
 from ml.model import train_model, inference, compute_model_metrics
+import joblib
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)-15s %(message)s")
 logger = logging.getLogger()
@@ -62,6 +63,9 @@ cat_features = [
 X_train, y_train, encoder, lb = process_data(
     train, categorical_features=cat_features, label='salary', training=True
 )
+
+joblib.dump(encoder,'model/transform_dataset.pkl')
+joblib.dump(lb,'model/transform_dataset_y.pkl')
 
 logger.info(" Preparing x an y test data")
 X_test, y_test, encoder_test, lb_test = process_data(
