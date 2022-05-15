@@ -4,7 +4,7 @@ import pytest
 # Import our app from main.py.
 from main import app
 import sys
-
+sys.path.append('../MlopsProject3')
 
 @pytest.fixture()
 def data_less_than_50k():
