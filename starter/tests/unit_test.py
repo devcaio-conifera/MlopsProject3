@@ -9,8 +9,8 @@ import joblib
 import sys
 
 # os.chdir("../")
-sys.path.append('../')
-
+sys.path.append('../../../MlopsProject3')
+print(os.getcwd())
 @pytest.fixture
 def data():
     data_dict = {
