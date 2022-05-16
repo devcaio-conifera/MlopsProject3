@@ -9,7 +9,7 @@ import joblib
 import sys
 
 # os.chdir("../")
-path = os.getcwd()
+sys.path.append('../MlopsProject3')
 
 @pytest.fixture
 def data():
@@ -49,8 +49,8 @@ cat_features = [
     "native-country",
 ]
 def test_process_data_columns(data):
-    encoder = joblib.load(path + "/starter/model/transform_dataset.pkl")
-    lb = joblib.load(path + "/starter/model/transform_dataset_y.pkl")
+    encoder =joblib.load(os.path.join(os.getcwd(), "model", "transform_dataset.pkl"))
+    lb =joblib.load(os.path.join(os.getcwd(), "model", "transform_dataset_y.pkl"))
     X,_,_,_= process_data(data, categorical_features=cat_features, training=False,
     encoder=encoder, lb=lb)
     expected_X_result = 109
