@@ -9,7 +9,7 @@ import joblib
 import sys
 
 # os.chdir("../")
-sys.path.append('../MlopsProject3')
+sys.path.append('../')
 
 @pytest.fixture
 def data():

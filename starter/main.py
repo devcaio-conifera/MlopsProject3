@@ -10,7 +10,7 @@ import numpy as np
 from fastapi.encoders import jsonable_encoder
 import os
 import sys
-sys.path.append('../MlopsProject3')
+sys.path.append('../')
 # path = os.getcwd()
 # print(sys.path)
 def underscore_to_hyphen_replace(string: str) -> str:
