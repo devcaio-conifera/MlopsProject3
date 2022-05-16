@@ -4,7 +4,10 @@ import pytest
 # Import our app from main.py.
 from main import app
 import sys
-sys.path.append('../../../MlopsProject3')
+import os
+
+# os.chdir("../")
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 @pytest.fixture()
 def data_less_than_50k():

@@ -10,7 +10,7 @@ import numpy as np
 from fastapi.encoders import jsonable_encoder
 import os
 import sys
-sys.path.append('../../../MlopsProject3')
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 # path = os.getcwd()
 # print(sys.path)
 def underscore_to_hyphen_replace(string: str) -> str:
@@ -84,9 +84,9 @@ async def say_hello():
 @app.post("/items/")
 async def create_item(df_inputs: census_inputs):
     data = pd.DataFrame(jsonable_encoder(df_inputs), index=[0])
-    encoder =joblib.load(os.path.join(os.getcwd(), "model", "transform_dataset.pkl"))
-    lb =joblib.load(os.path.join( os.getcwd(), "model", "transform_dataset_y.pkl"))
-    model_grid = joblib.load(os.path.join(os.getcwd(), "model", "final_model1.pkl"))
+    encoder =joblib.load(os.path.join( "model", "transform_dataset.pkl"))
+    lb =joblib.load(os.path.join("model", "transform_dataset_y.pkl"))
+    model_grid = joblib.load(os.path.join( "model", "final_model1.pkl"))
     X,_, _, _ = process_data(
     data, categorical_features=cat_features, training=False, 
     encoder= encoder, 

@@ -7,9 +7,9 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 import joblib
 import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 # os.chdir("../")
-sys.path.append('../../../MlopsProject3')
 print(os.getcwd())
 @pytest.fixture
 def data():
@@ -49,8 +49,8 @@ cat_features = [
     "native-country",
 ]
 def test_process_data_columns(data):
-    encoder =joblib.load(os.path.join(os.getcwd(), "model", "transform_dataset.pkl"))
-    lb =joblib.load(os.path.join(os.getcwd(), "model", "transform_dataset_y.pkl"))
+    encoder =joblib.load(os.path.join("model", "transform_dataset.pkl"))
+    lb =joblib.load(os.path.join("model", "transform_dataset_y.pkl"))
     X,_,_,_= process_data(data, categorical_features=cat_features, training=False,
     encoder=encoder, lb=lb)
     expected_X_result = 109
