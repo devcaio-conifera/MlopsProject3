@@ -3,9 +3,7 @@ from fastapi import FastAPI
 import joblib
 from pydantic import BaseModel, Field
 import pandas as pd
-from starter.starter.ml.data import process_data
-from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
-import json
+from .starter.starter.ml.data import process_data
 import numpy as np
 from fastapi.encoders import jsonable_encoder
 import os
