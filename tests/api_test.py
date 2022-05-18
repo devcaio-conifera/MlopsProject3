@@ -1,14 +1,14 @@
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from fastapi.testclient import TestClient
 import json
 import pytest
 # Import our app from main.py.
 from main import app
-import sys
-import os
 
 # os.chdir("../")
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
-
+print(os.getcwd())
 @pytest.fixture()
 def data_less_than_50k():
     df = {
