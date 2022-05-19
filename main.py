@@ -1,4 +1,7 @@
 # Put the code for your API here.
+import sys
+import os
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from fastapi import FastAPI
 import joblib
 from pydantic import BaseModel, Field
@@ -6,10 +9,7 @@ import pandas as pd
 from starter.starter.ml.data import process_data
 import numpy as np
 from fastapi.encoders import jsonable_encoder
-import os
-import sys
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 if "DYNO" in os.environ and os.path.isdir(".dvc"):
     os.system("dvc config core.no_scm true")
